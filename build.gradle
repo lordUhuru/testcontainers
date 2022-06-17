@@ -1,0 +1,54 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "org.flywaydb.flyway" version "8.5.13"
+}
+
+group = 'com.codelab'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2021.0.3")
+    set('testcontainersVersion', "1.17.2")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.flywaydb:flyway-core:8.5.12'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    implementation 'com.vladmihalcea:hibernate-types-55:2.16.2'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+
+    //test containers
+    testImplementation "org.testcontainers:testcontainers:1.17.2"
+    testImplementation "org.testcontainers:postgresql:1.17.2"
+    testImplementation 'org.springframework.cloud:spring-cloud-starter' //required as a test dependency for testcontainers to work
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
