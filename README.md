@@ -1,7 +1,10 @@
 # testcontainers
 
-Working Java Project on how to use testcontainers
+Working Starter Project on that works with testcontainers.
+with actual JPA implementation.
 
+testcontainers
+- postgres
 
 ## How to run
 
